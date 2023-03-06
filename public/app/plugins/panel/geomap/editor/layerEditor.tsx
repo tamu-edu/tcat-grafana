@@ -127,6 +127,15 @@ export function getLayerEditor(opts: LayerEditorOptions): NestedPanelOptions<Map
           description: 'Show the tooltip for layer',
           defaultValue: true,
         });
+        builder.addMultiSelect({
+          path: 'richard',
+          name: 'Display richard',
+          description: 'Show the richard for layer',
+          settings: {
+            options: [{ label: 'ricasdljfadflkj', value: 'beepity' }],
+          },
+        });
+        // builder.addMultiSelect({ name: 'Limit tooltip fields', path: 'limit', defaultValue: ['richard'] });
       }
     },
   };

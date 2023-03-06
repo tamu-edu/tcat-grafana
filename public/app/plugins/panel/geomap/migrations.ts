@@ -48,6 +48,7 @@ export function worldmapToGeomapOptions(angular: any): { fieldConfig: FieldConfi
       // TODO? depends on current configs
     ],
     tooltip: { mode: TooltipMode.Details },
+    richard: [],
   };
 
   let v = asNumber(angular.decimals);

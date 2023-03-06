@@ -60,8 +60,9 @@ export const DataHoverRows = ({ layers, activeTabIndex }: Props) => {
   );
 };
 
-export const generateLabel = (feature: FeatureLike, idx: number): string | React.ReactNode => {
-  const names = ['Name', 'name', 'Title', 'ID', 'id'];
+export const generateLabel = (feature: FeatureLike, idx: number, displayField?: string): string | React.ReactNode => {
+  const defaultNames = ['Name', 'name', 'Title', 'ID', 'id'];
+  const names = displayField ? [displayField, ...defaultNames] : defaultNames;
   let props = feature.getProperties();
   let first = '';
   const frame = feature.get('frame') as DataFrame; // eslint-disable-line

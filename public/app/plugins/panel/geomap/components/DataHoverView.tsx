@@ -20,11 +20,12 @@ export interface Props {
   rowIndex?: number | null; // the hover row
   columnIndex?: number | null; // the hover column
   sortOrder?: SortOrder;
+  richard?: string[];
   mode?: TooltipDisplayMode | null;
   header?: string;
 }
 
-export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, header = undefined }: Props) => {
+export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, header = undefined, richard }: Props) => {
   const styles = useStyles2(getStyles);
 
   if (!data || rowIndex == null) {
@@ -44,7 +45,13 @@ export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, he
   const links: Array<LinkModel<Field>> = [];
   const linkLookup = new Set<string>();
 
+  if (richard) {
+    console.log('richard');
+  }
+
   for (const f of orderedVisibleFields) {
+    // console.log(f.name in );
+
     const v = f.values.get(rowIndex);
     const disp = f.display ? f.display(v) : { text: `${v}`, numeric: +v };
     if (f.getLinks) {

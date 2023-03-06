@@ -56,6 +56,7 @@ title: GeomapPanelCfg kind
 | `basemap`  | [MapLayerOptions](#maplayeroptions)   | **Yes**  |             |
 | `controls` | [ControlsOptions](#controlsoptions)   | **Yes**  |             |
 | `layers`   | [MapLayerOptions](#maplayeroptions)[] | **Yes**  |             |
+| `richard`  | string[]                              | **Yes**  |             |
 | `tooltip`  | [TooltipOptions](#tooltipoptions)     | **Yes**  |             |
 | `view`     | [MapViewConfig](#mapviewconfig)       | **Yes**  |             |
 
