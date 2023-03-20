@@ -14,9 +14,10 @@ import { DataHoverRow } from './DataHoverRow';
 type Props = {
   layers: GeomapLayerHover[];
   activeTabIndex: number;
+  limitFields: string[];
 };
 
-export const DataHoverRows = ({ layers, activeTabIndex }: Props) => {
+export const DataHoverRows = ({ layers, activeTabIndex, limitFields }: Props) => {
   const styles = useStyles2(getStyles);
   const [rowMap, setRowMap] = useState(new Map<string | number, boolean>());
 
@@ -46,10 +47,10 @@ export const DataHoverRows = ({ layers, activeTabIndex }: Props) => {
                       }}
                       className={styles.collapsibleRow}
                     >
-                      <DataHoverRow feature={feature} />
+                      <DataHoverRow feature={feature} limitFields={limitFields} />
                     </Collapse>
                   ) : (
-                    <DataHoverRow key={key} feature={feature} />
+                    <DataHoverRow key={key} feature={feature} limitFields={limitFields} />
                   );
                 })}
               </div>

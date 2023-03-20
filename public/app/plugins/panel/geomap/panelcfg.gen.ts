@@ -16,14 +16,14 @@ export interface PanelOptions {
   basemap: ui.MapLayerOptions;
   controls: ControlsOptions;
   layers: Array<ui.MapLayerOptions>;
-  richard: Array<string>;
+  limitFields: Array<string>;
   tooltip: TooltipOptions;
   view: MapViewConfig;
 }
 
 export const defaultPanelOptions: Partial<PanelOptions> = {
   layers: [],
-  richard: [],
+  limitFields: [],
 };
 
 export interface MapViewConfig {

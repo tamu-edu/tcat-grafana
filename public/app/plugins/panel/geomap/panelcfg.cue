@@ -32,7 +32,7 @@ composableKinds: PanelCfg: {
 							basemap:  ui.MapLayerOptions
 							layers: [...ui.MapLayerOptions]
 							tooltip: TooltipOptions
-							richard: [...string]
+							limitFields: [...string]
 						} @cuetsy(kind="interface")
 
 						MapViewConfig: {

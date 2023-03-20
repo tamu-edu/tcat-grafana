@@ -7,10 +7,10 @@ import { DataHoverView } from './DataHoverView';
 
 type Props = {
   feature?: FeatureLike;
-  richard: string[];
+  limitFields: string[];
 };
 
-export const DataHoverRow = ({ feature, richard }: Props) => {
+export const DataHoverRow = ({ feature, limitFields }: Props) => {
   let data: DataFrame;
   let rowIndex = 0;
   if (!feature) {
@@ -25,5 +25,5 @@ export const DataHoverRow = ({ feature, richard }: Props) => {
     data = new ArrayDataFrame([properties]);
   }
 
-  return <DataHoverView data={data} rowIndex={rowIndex} richard={richard} />;
+  return <DataHoverView data={data} rowIndex={rowIndex} limitFields={limitFields} />;
 };

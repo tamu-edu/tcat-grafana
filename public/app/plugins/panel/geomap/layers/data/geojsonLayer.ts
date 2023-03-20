@@ -178,8 +178,8 @@ export const geojsonLayer: MapLayerRegistryItem<GeoJSONMapperConfig> = {
             defaultValue: defaultOptions.style,
           })
           .addCustomEditor({
-            id: 'config.rules',
-            path: 'config.rules',
+            id: 'config.rulles',
+            path: 'config.rulles',
             name: 'Style rules',
             description: 'Apply styles based on feature properties',
             editor: GeomapStyleRulesEditor,
@@ -188,7 +188,23 @@ export const geojsonLayer: MapLayerRegistryItem<GeoJSONMapperConfig> = {
               layerInfo,
             },
             defaultValue: [],
-          });
+          }).addMultiSelect({
+
+          path: 'config.limitFields',
+          name: 'Limit fields',
+          description: 'Limit fields on tooltip',
+          settings: {
+            isClearable: true,
+            allowCustomValue: true,
+            options: [],
+            getOptions: async (context) => {
+              let layers:any[] = []
+              await layerInfo.forEach(layer => layers=layer.propertes)
+              
+              return layers;
+            },
+          },
+        });
       },
     };
   },

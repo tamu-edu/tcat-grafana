@@ -11,6 +11,13 @@ import { MapLayerState } from '../types';
 
 import { FrameSelectionEditor } from './FrameSelectionEditor';
 
+// import { FeatureLike } from 'ol/Feature';
+// import GeoJSON from 'ol/format/GeoJSON';
+// import { unByKey } from 'ol/Observable';
+// import VectorSource from 'ol/source/Vector';
+// import { first, map as rxjsmap, ReplaySubject } from 'rxjs';
+// import { getLayerPropertyInfo } from '../utils/getFeatures';
+
 export interface LayerEditorOptions {
   state: MapLayerState;
   category: string[];
@@ -52,13 +59,32 @@ export function getLayerEditor(opts: LayerEditorOptions): NestedPanelOptions<Map
         state.onChange(setOptionImmutably(options, path, value));
       },
     }),
-    build: (builder, context) => {
+    build: async (builder, context) => {
       if (!opts.state) {
         return;
       }
 
       const { handler, options } = opts.state;
       const layer = geomapLayerRegistry.getIfExists(options?.type);
+
+      // const source = new VectorSource({
+      //   url: (options as any)?.config?.src,
+      //   format: new GeoJSON(),
+      // });
+      // const features = new ReplaySubject<FeatureLike[]>();
+      // const key = source.on('change', () => {
+      //   //one geojson loads
+      //   if (source.getState() == 'ready') {
+      //     unByKey(key);
+      //     features.next(source.getFeatures());
+      //   }
+      // });
+      // const layerInfo = features.pipe(
+      //   first(),
+      //   rxjsmap((v) => getLayerPropertyInfo(v))
+      // );
+      // let layers: any[] = [];
+      // await layerInfo.forEach((layer) => (layers = layer.propertes));
 
       const layerTypes = getLayersOptions(
         opts.basemaps,
@@ -127,15 +153,6 @@ export function getLayerEditor(opts: LayerEditorOptions): NestedPanelOptions<Map
           description: 'Show the tooltip for layer',
           defaultValue: true,
         });
-        builder.addMultiSelect({
-          path: 'richard',
-          name: 'Display richard',
-          description: 'Show the richard for layer',
-          settings: {
-            options: [{ label: 'ricasdljfadflkj', value: 'beepity' }],
-          },
-        });
-        // builder.addMultiSelect({ name: 'Limit tooltip fields', path: 'limit', defaultValue: ['richard'] });
       }
     },
   };

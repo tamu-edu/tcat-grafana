@@ -20,12 +20,20 @@ export interface Props {
   rowIndex?: number | null; // the hover row
   columnIndex?: number | null; // the hover column
   sortOrder?: SortOrder;
-  richard?: string[];
+  limitFields?: string[];
   mode?: TooltipDisplayMode | null;
   header?: string;
 }
 
-export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, header = undefined, richard }: Props) => {
+export const DataHoverView = ({
+  data,
+  rowIndex,
+  columnIndex,
+  sortOrder,
+  mode,
+  header = undefined,
+  limitFields,
+}: Props) => {
   const styles = useStyles2(getStyles);
 
   if (!data || rowIndex == null) {
@@ -41,17 +49,11 @@ export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, he
     return null;
   }
 
-  const displayValues: Array<[string, unknown, string]> = [];
+  let displayValues: Array<[string, unknown, string]> = [];
   const links: Array<LinkModel<Field>> = [];
   const linkLookup = new Set<string>();
 
-  if (richard) {
-    console.log('richard');
-  }
-
   for (const f of orderedVisibleFields) {
-    // console.log(f.name in );
-
     const v = f.values.get(rowIndex);
     const disp = f.display ? f.display(v) : { text: `${v}`, numeric: +v };
     if (f.getLinks) {
@@ -69,6 +71,9 @@ export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, he
 
   if (sortOrder && sortOrder !== SortOrder.None) {
     displayValues.sort((a, b) => arrayUtils.sortValues(sortOrder)(a[1], b[1]));
+  }
+  if (limitFields) {
+    displayValues = displayValues.filter((value) => limitFields.includes(value[0]));
   }
 
   const renderLinks = () =>
