@@ -23,6 +23,7 @@ import { ReplaySubject } from 'rxjs';
 import { map as rxjsmap, first } from 'rxjs/operators';
 import { getLayerPropertyInfo } from '../../utils/getFeatures';
 import { getPublicGeoJSONFiles } from '../../utils/utils';
+import { PropertyEvent } from '../../utils/propertyEvent';
 
 export interface GeoJSONMapperConfig {
   // URL for a geojson file
@@ -201,6 +202,7 @@ export const geojsonLayer: MapLayerRegistryItem<GeoJSONMapperConfig> = {
               let layers:any[] = []
               await layerInfo.forEach(layer => layers=layer.propertes)
               
+              context.eventBus?.publish(new PropertyEvent({properties: layers}))
               return layers;
             },
           },

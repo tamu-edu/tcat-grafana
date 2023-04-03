@@ -1,6 +1,6 @@
 import { get as lodashGet, isEqual } from 'lodash';
 
-import { FrameGeometrySourceMode, getFrameMatchers, MapLayerOptions } from '@grafana/data';
+import { FrameGeometrySourceMode, getFrameMatchers, MapLayerOptions, SelectableValue } from '@grafana/data';
 import { NestedPanelOptions, NestedValueAccess } from '@grafana/data/src/utils/OptionsUIBuilders';
 import { setOptionImmutably } from 'app/features/dashboard/components/PanelEditor/utils';
 import { addLocationFields } from 'app/features/geo/editor/locationEditor';
@@ -11,12 +11,9 @@ import { MapLayerState } from '../types';
 
 import { FrameSelectionEditor } from './FrameSelectionEditor';
 
-// import { FeatureLike } from 'ol/Feature';
-// import GeoJSON from 'ol/format/GeoJSON';
-// import { unByKey } from 'ol/Observable';
-// import VectorSource from 'ol/source/Vector';
-// import { first, map as rxjsmap, ReplaySubject } from 'rxjs';
-// import { getLayerPropertyInfo } from '../utils/getFeatures';
+import { PropertyEvent } from '../utils/propertyEvent';
+import { toSelectableValue } from 'app/plugins/datasource/influxdb/components/VisualInfluxQLEditor/toSelectableValue';
+import { take } from 'rxjs';
 
 export interface LayerEditorOptions {
   state: MapLayerState;
@@ -66,25 +63,6 @@ export function getLayerEditor(opts: LayerEditorOptions): NestedPanelOptions<Map
 
       const { handler, options } = opts.state;
       const layer = geomapLayerRegistry.getIfExists(options?.type);
-
-      // const source = new VectorSource({
-      //   url: (options as any)?.config?.src,
-      //   format: new GeoJSON(),
-      // });
-      // const features = new ReplaySubject<FeatureLike[]>();
-      // const key = source.on('change', () => {
-      //   //one geojson loads
-      //   if (source.getState() == 'ready') {
-      //     unByKey(key);
-      //     features.next(source.getFeatures());
-      //   }
-      // });
-      // const layerInfo = features.pipe(
-      //   first(),
-      //   rxjsmap((v) => getLayerPropertyInfo(v))
-      // );
-      // let layers: any[] = [];
-      // await layerInfo.forEach((layer) => (layers = layer.propertes));
 
       const layerTypes = getLayersOptions(
         opts.basemaps,
@@ -152,6 +130,31 @@ export function getLayerEditor(opts: LayerEditorOptions): NestedPanelOptions<Map
           name: 'Display tooltip',
           description: 'Show the tooltip for layer',
           defaultValue: true,
+        });
+        builder.addMultiSelect({
+          path: 'richard',
+          name: 'display righarc',
+          settings: {
+            options: [toSelectableValue('henlo')],
+            getOptions: async (context) => {
+              let options: SelectableValue<string>[] = [toSelectableValue('henlo')];
+              if (context.options.type === 'geojson') {
+                await context.eventBus
+                  ?.getStream(PropertyEvent)
+                  .pipe(take(1))
+                  .forEach((e) => {
+                    options = e.payload.properties.map((v) => v as any);
+                    console.log('type:', context.options.type === 'geojson');
+                  })
+                  .finally(() => {
+                    console.log('finally');
+                  });
+                console.log('escaped');
+              }
+              console.log('value that will be returned', options);
+              return options;
+            },
+          },
         });
       }
     },

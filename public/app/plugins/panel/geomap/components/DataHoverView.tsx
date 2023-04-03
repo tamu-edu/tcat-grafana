@@ -72,9 +72,9 @@ export const DataHoverView = ({
   if (sortOrder && sortOrder !== SortOrder.None) {
     displayValues.sort((a, b) => arrayUtils.sortValues(sortOrder)(a[1], b[1]));
   }
-  if (limitFields) {
-    displayValues = displayValues.filter((value) => limitFields.includes(value[0]));
-  }
+  // if (limitFields) {
+  //   displayValues = displayValues.filter((value) => limitFields.includes(value[0]));
+  // }
 
   const renderLinks = () =>
     links.length > 0 && (
