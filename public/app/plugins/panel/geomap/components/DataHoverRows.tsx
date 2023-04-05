@@ -14,10 +14,9 @@ import { DataHoverRow } from './DataHoverRow';
 type Props = {
   layers: GeomapLayerHover[];
   activeTabIndex: number;
-  limitFields: string[];
 };
 
-export const DataHoverRows = ({ layers, activeTabIndex, limitFields }: Props) => {
+export const DataHoverRows = ({ layers, activeTabIndex }: Props) => {
   const styles = useStyles2(getStyles);
   const [rowMap, setRowMap] = useState(new Map<string | number, boolean>());
 
@@ -35,6 +34,7 @@ export const DataHoverRows = ({ layers, activeTabIndex, limitFields }: Props) =>
                 {geomapLayer.features.map((feature, idx) => {
                   const key = feature.getId() ?? idx;
                   const shouldDisplayCollapse = geomapLayer.features.length > 1;
+                  const limitFields = (geomapLayer.layer.options as any)?.limitFields;
 
                   return shouldDisplayCollapse ? (
                     <Collapse

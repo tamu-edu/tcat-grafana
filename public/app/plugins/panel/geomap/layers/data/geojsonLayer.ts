@@ -1,10 +1,4 @@
-import {
-  MapLayerRegistryItem,
-  MapLayerOptions,
-  GrafanaTheme2,
-  PluginState,
-  EventBus,
-} from '@grafana/data';
+import { MapLayerRegistryItem, MapLayerOptions, GrafanaTheme2, PluginState, EventBus } from '@grafana/data';
 import Map from 'ol/Map';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
@@ -156,6 +150,8 @@ export const geojsonLayer: MapLayerRegistryItem<GeoJSONMapperConfig> = {
           rxjsmap((v) => getLayerPropertyInfo(v))
         );
 
+        layerInfo.forEach((layer) => eventBus?.publish(new PropertyEvent({ properties: layer.propertes })));
+
         builder
           .addSelect({
             path: 'config.src',
@@ -189,27 +185,9 @@ export const geojsonLayer: MapLayerRegistryItem<GeoJSONMapperConfig> = {
               layerInfo,
             },
             defaultValue: [],
-          }).addMultiSelect({
-
-          path: 'config.limitFields',
-          name: 'Limit fields',
-          description: 'Limit fields on tooltip',
-          settings: {
-            isClearable: true,
-            allowCustomValue: true,
-            options: [],
-            getOptions: async (context) => {
-              let layers:any[] = []
-              await layerInfo.forEach(layer => layers=layer.propertes)
-              
-              context.eventBus?.publish(new PropertyEvent({properties: layers}))
-              return layers;
-            },
-          },
-        });
+          });
       },
     };
   },
   defaultOptions,
 };
-

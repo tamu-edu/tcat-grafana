@@ -24,7 +24,7 @@ export const ComplexDataHoverView = ({ layers, onClose, isOpen }: Props) => {
     <>
       {isOpen && <CloseButton style={{ zIndex: 1 }} onClick={onClose} />}
       <DataHoverTabs layers={layers} setActiveTabIndex={setActiveTabIndex} activeTabIndex={activeTabIndex} />
-      <DataHoverRows layers={layers} activeTabIndex={activeTabIndex} limitFields={[]} />
+      <DataHoverRows layers={layers} activeTabIndex={activeTabIndex} />
     </>
   );
 };

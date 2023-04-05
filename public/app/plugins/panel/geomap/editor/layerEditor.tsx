@@ -1,19 +1,18 @@
 import { get as lodashGet, isEqual } from 'lodash';
+import { take } from 'rxjs';
 
 import { FrameGeometrySourceMode, getFrameMatchers, MapLayerOptions, SelectableValue } from '@grafana/data';
 import { NestedPanelOptions, NestedValueAccess } from '@grafana/data/src/utils/OptionsUIBuilders';
 import { setOptionImmutably } from 'app/features/dashboard/components/PanelEditor/utils';
 import { addLocationFields } from 'app/features/geo/editor/locationEditor';
+import { toSelectableValue } from 'app/plugins/datasource/influxdb/components/VisualInfluxQLEditor/toSelectableValue';
 
 import { defaultMarkersConfig } from '../layers/data/markersLayer';
 import { DEFAULT_BASEMAP_CONFIG, geomapLayerRegistry, getLayersOptions } from '../layers/registry';
 import { MapLayerState } from '../types';
+import { PropertyEvent } from '../utils/propertyEvent';
 
 import { FrameSelectionEditor } from './FrameSelectionEditor';
-
-import { PropertyEvent } from '../utils/propertyEvent';
-import { toSelectableValue } from 'app/plugins/datasource/influxdb/components/VisualInfluxQLEditor/toSelectableValue';
-import { take } from 'rxjs';
 
 export interface LayerEditorOptions {
   state: MapLayerState;
@@ -132,26 +131,21 @@ export function getLayerEditor(opts: LayerEditorOptions): NestedPanelOptions<Map
           defaultValue: true,
         });
         builder.addMultiSelect({
-          path: 'richard',
-          name: 'display righarc',
+          path: 'limitFields',
+          name: 'Limit Fields',
+          description: 'Select all the fields that should be displayed',
           settings: {
-            options: [toSelectableValue('henlo')],
+            options: [] as Array<SelectableValue<string>>,
             getOptions: async (context) => {
-              let options: SelectableValue<string>[] = [toSelectableValue('henlo')];
+              let options: Array<SelectableValue<string>> = context.data[0].fields.map((field) =>
+                toSelectableValue(field.name)
+              );
               if (context.options.type === 'geojson') {
                 await context.eventBus
                   ?.getStream(PropertyEvent)
                   .pipe(take(1))
-                  .forEach((e) => {
-                    options = e.payload.properties.map((v) => v as any);
-                    console.log('type:', context.options.type === 'geojson');
-                  })
-                  .finally(() => {
-                    console.log('finally');
-                  });
-                console.log('escaped');
+                  .forEach((e) => (options = e.payload.properties));
               }
-              console.log('value that will be returned', options);
               return options;
             },
           },

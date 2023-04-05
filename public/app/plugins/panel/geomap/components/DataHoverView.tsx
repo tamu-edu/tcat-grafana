@@ -72,9 +72,10 @@ export const DataHoverView = ({
   if (sortOrder && sortOrder !== SortOrder.None) {
     displayValues.sort((a, b) => arrayUtils.sortValues(sortOrder)(a[1], b[1]));
   }
-  // if (limitFields) {
-  //   displayValues = displayValues.filter((value) => limitFields.includes(value[0]));
-  // }
+
+  if (limitFields && limitFields.length !== 0) {
+    displayValues = displayValues.filter((value) => limitFields.includes(value[0]));
+  }
 
   const renderLinks = () =>
     links.length > 0 && (
@@ -107,12 +108,12 @@ export const DataHoverView = ({
         </div>
       )}
       <table className={styles.infoWrap}>
-        <tbody>
+        <tbody style={{ width: '100%' }}>
           {(mode === TooltipDisplayMode.Multi || mode == null) &&
             displayValues.map((v, i) => (
               <tr key={`${i}/${rowIndex}`} className={i === columnIndex ? styles.highlight : ''}>
                 <th>{v[0]}:</th>
-                <td>{renderValue(v[2])}</td>
+                <th>{renderValue(v[2])}</th>
               </tr>
             ))}
           {mode === TooltipDisplayMode.Single && columnIndex && (
@@ -155,6 +156,7 @@ const getStyles = (theme: GrafanaTheme2) => {
     `,
     infoWrap: css`
       padding: 8px;
+      width: 100%;
       th {
         font-weight: ${theme.typography.fontWeightMedium};
         padding: ${theme.spacing(0.25, 2)};
