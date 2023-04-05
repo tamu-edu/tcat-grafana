@@ -3,7 +3,6 @@
 .yarn
 build
 compiled
-data
 deployment_tools_config.json
 devenv
 dist
