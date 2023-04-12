@@ -1,3 +1,4 @@
+import { css } from '@emotion/css';
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 
@@ -44,7 +45,7 @@ export const DashboardLinks = ({ dashboard, links }: Props) => {
 
         const linkElement = (
           <a
-            className="gf-form-label gf-form-label--dashlink"
+            className={'gf-form-label gf-form-label--dashlink ' + styles}
             href={sanitizeUrl(linkInfo.href)}
             target={link.targetBlank ? '_blank' : undefined}
             rel="noreferrer"
@@ -64,3 +65,7 @@ export const DashboardLinks = ({ dashboard, links }: Props) => {
     </>
   );
 };
+
+const styles = css`
+  color: maroon;
+`;
