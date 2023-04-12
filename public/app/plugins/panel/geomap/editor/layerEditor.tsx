@@ -127,6 +127,13 @@ export function getLayerEditor(opts: LayerEditorOptions): NestedPanelOptions<Map
           description: 'Show the tooltip for layer',
           defaultValue: true,
         });
+        if (context.options?.tooltip) {
+          builder.addBooleanSwitch({
+            path: 'showCoordinates',
+            name: 'Display coordinates',
+            description: 'Display latitude and longitude on tooltip',
+          });
+        }
       }
     },
   };

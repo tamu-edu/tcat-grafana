@@ -16,6 +16,7 @@ export interface PanelOptions {
   basemap: ui.MapLayerOptions;
   controls: ControlsOptions;
   layers: Array<ui.MapLayerOptions>;
+  showCoordinates: boolean;
   tooltip: TooltipOptions;
   view: MapViewConfig;
 }

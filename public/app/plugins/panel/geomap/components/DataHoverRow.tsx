@@ -7,9 +7,10 @@ import { DataHoverView } from './DataHoverView';
 
 type Props = {
   feature?: FeatureLike;
+  showCoordinates?: boolean
 };
 
-export const DataHoverRow = ({ feature }: Props) => {
+export const DataHoverRow = ({ feature, showCoordinates }: Props) => {
   let data: DataFrame;
   let rowIndex = 0;
   if (!feature) {
@@ -24,5 +25,5 @@ export const DataHoverRow = ({ feature }: Props) => {
     data = new ArrayDataFrame([properties]);
   }
 
-  return <DataHoverView data={data} rowIndex={rowIndex} />;
+  return <DataHoverView data={data} rowIndex={rowIndex} showCoordinates={showCoordinates} />;
 };

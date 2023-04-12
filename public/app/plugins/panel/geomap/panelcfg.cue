@@ -32,6 +32,7 @@ composableKinds: PanelCfg: {
 							basemap:  ui.MapLayerOptions
 							layers: [...ui.MapLayerOptions]
 							tooltip: TooltipOptions
+							showCoordinates: bool
 						} @cuetsy(kind="interface")
 
 						MapViewConfig: {
