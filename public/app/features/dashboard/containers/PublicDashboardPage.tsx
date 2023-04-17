@@ -14,8 +14,8 @@ import { useSelector, useDispatch } from 'app/types';
 import { DashNavTimeControls } from '../components/DashNav/DashNavTimeControls';
 import { DashboardFailed } from '../components/DashboardLoading/DashboardFailed';
 import { DashboardLoading } from '../components/DashboardLoading/DashboardLoading';
-import { PublicDashboardFooter } from '../components/PublicDashboardFooter/PublicDashboardsFooter';
 import { PublicDashboardNotAvailable } from '../components/PublicDashboardNotAvailable/PublicDashboardNotAvailable';
+import { SubMenu } from '../components/SubMenu/SubMenu';
 import { DashboardGrid } from '../dashgrid/DashboardGrid';
 import { getTimeSrv } from '../services/TimeSrv';
 import { DashboardModel } from '../state';
@@ -111,10 +111,11 @@ const PublicDashboardPage = (props: Props) => {
       data-testid={selectors.page}
     >
       {dashboardState.initError && <DashboardFailed initError={dashboardState.initError} />}
+
       <div className={styles.gridContainer}>
+        <SubMenu dashboard={dashboard} annotations={dashboard.annotations.list} links={dashboard.links} />
         <DashboardGrid dashboard={dashboard} isEditable={false} viewPanel={null} editPanel={null} hidePanelMenus />
       </div>
-      <PublicDashboardFooter />
     </Page>
   );
 };
