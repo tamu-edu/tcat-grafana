@@ -182,8 +182,7 @@ PLATFORM=linux/amd64
 
 build-docker-full: ## Build Docker image for development.
 	@echo "build docker container"
-	tar -ch . | \
-	docker buildx build - \
+	docker build . \
 	--platform $(PLATFORM) \
 	--build-arg BINGO=false \
 	--build-arg GO_BUILD_TAGS=$(GO_BUILD_TAGS) \

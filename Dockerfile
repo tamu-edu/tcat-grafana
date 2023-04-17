@@ -61,8 +61,8 @@ COPY public/api-merged.json public/api-merged.json
 COPY pkg pkg
 COPY scripts scripts
 COPY conf conf
-COPY .github .github
-COPY .git .git
+# COPY .github .github
+# COPY .git .git
 
 RUN make build-go GO_BUILD_TAGS=${GO_BUILD_TAGS} WIRE_TAGS=${WIRE_TAGS}
 
