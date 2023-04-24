@@ -20,9 +20,10 @@ export interface Props {
   sortOrder?: SortOrder;
   mode?: TooltipDisplayMode | null;
   header?: string;
+  showCoordinates?: boolean
 }
 
-export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, header = undefined }: Props) => {
+export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, header = undefined, showCoordinates }: Props) => {
   const styles = useStyles2(getStyles);
 
   if (!data || rowIndex == null) {
@@ -38,7 +39,7 @@ export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, he
     return null;
   }
 
-  const displayValues: Array<[string, unknown, string]> = [];
+  let displayValues: Array<[string, unknown, string]> = [];
   const links: Array<LinkModel<Field>> = [];
   const linkLookup = new Set<string>();
 
@@ -60,6 +61,10 @@ export const DataHoverView = ({ data, rowIndex, columnIndex, sortOrder, mode, he
 
   if (sortOrder && sortOrder !== SortOrder.None) {
     displayValues.sort((a, b) => arrayUtils.sortValues(sortOrder)(a[1], b[1]));
+  }
+
+  if (!showCoordinates) {
+    displayValues = displayValues.filter(v => v[0] !== 'latitude' && v[0] !== 'longitude')
   }
 
   const renderLinks = () =>

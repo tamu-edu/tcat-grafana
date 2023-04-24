@@ -33,6 +33,7 @@ export const DataHoverRows = ({ layers, activeTabIndex }: Props) => {
                 {geomapLayer.features.map((feature, idx) => {
                   const key = feature.getId() ?? idx;
                   const shouldDisplayCollapse = geomapLayer.features.length > 1;
+                  const showCoordinates = (geomapLayer.layer.options as any)?.showCoordinates;
 
                   return shouldDisplayCollapse ? (
                     <Collapse
@@ -45,10 +46,10 @@ export const DataHoverRows = ({ layers, activeTabIndex }: Props) => {
                       }}
                       className={styles.collapsibleRow}
                     >
-                      <DataHoverRow feature={feature} />
+                      <DataHoverRow feature={feature} showCoordinates={showCoordinates} />
                     </Collapse>
                   ) : (
-                    <DataHoverRow key={key} feature={feature} />
+                    <DataHoverRow key={key} feature={feature} showCoordinates={showCoordinates} />
                   );
                 })}
               </div>
