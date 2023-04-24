@@ -1,3 +1,4 @@
+import { css } from '@emotion/css';
 import React, { FunctionComponent, PropsWithChildren, ReactElement, useMemo } from 'react';
 
 import { selectors } from '@grafana/e2e-selectors';
@@ -40,7 +41,7 @@ function PickerLabel({ variable }: PropsWithChildren<Props>): ReactElement | nul
     return (
       <Tooltip content={variable.description} placement={'bottom'}>
         <label
-          className="gf-form-label gf-form-label--variable"
+          className={'gf-form-label gf-form-label--variable ' + styles}
           data-testid={selectors.pages.Dashboard.SubMenu.submenuItemLabels(labelOrName)}
           htmlFor={elementId}
         >
@@ -52,7 +53,7 @@ function PickerLabel({ variable }: PropsWithChildren<Props>): ReactElement | nul
 
   return (
     <label
-      className="gf-form-label gf-form-label--variable"
+      className={'gf-form-label gf-form-label--variable ' + styles}
       data-testid={selectors.pages.Dashboard.SubMenu.submenuItemLabels(labelOrName)}
       htmlFor={elementId}
     >
@@ -60,3 +61,7 @@ function PickerLabel({ variable }: PropsWithChildren<Props>): ReactElement | nul
     </label>
   );
 }
+
+const styles = css`
+  color: maroon;
+`;
