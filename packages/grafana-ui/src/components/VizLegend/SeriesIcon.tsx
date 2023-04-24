@@ -29,7 +29,7 @@ export const SeriesIcon = React.memo(
     const styles: CSSProperties = {
       background: cssColor,
       width: '14px',
-      height: '4px',
+      height: '14px',
       borderRadius: '1px',
       display: 'inline-block',
       marginRight: '8px',
