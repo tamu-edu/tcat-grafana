@@ -1,0 +1,54 @@
+String getServer(String branch) {
+  switch (branch) {
+    case 'tcat-tweaks': return 'dashboard.health.tamu.edu'
+    default: return 'dashboard.health.tamu.edu'
+  }
+}
+
+String getContainerTag(String branch) {
+  def baseURL = 'docker.citd.tamu.edu'
+  def imageName = 'tamu-health'
+  switch (branch) {
+    case 'tcat-tweaks': return baseURL + '/' + imageName + ':' + branch
+    default: return baseURL + '/' + imageName
+  }
+}
+
+pipeline {
+  agent { label 'container' }
+
+  parameters {
+    gitParameter(
+      name: 'BRANCH',
+      branchFilter: 'origin/(.*)',
+      defaultValue: 'main',
+      type: 'PT_BRANCH',
+    )
+  }
+
+  environment {
+    PROJECT_DIR = "."
+    SERVER = getServer(params.BRANCH)
+    TAG = getContainerTag(params.BRANCH)
+  }
+
+  stages {
+    stage('Build Container') {
+      steps {
+        buildName "${params.BRANCH}-${env.GIT_COMMIT[0..7]}"
+        sh """
+        cd \"$WORKSPACE/$PROJECT_DIR\"
+        /usr/bin/buildah build-using-dockerfile --build-arg git_hash="${env.GIT_COMMIT[0..7]}" --tag "$TAG" .
+        """
+      }
+    }
+    stage('Push to registry') {
+      steps {
+        sh """
+        /usr/bin/buildah push "$TAG"
+        """
+        buildDescription "${params.BRANCH}-${env.GIT_COMMIT[0..7]}"
+      }
+    }
+  }
+}
