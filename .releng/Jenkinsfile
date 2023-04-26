@@ -37,7 +37,7 @@ pipeline {
       steps {
         buildName "${params.BRANCH}-${env.GIT_COMMIT[0..7]}"
         sh """
-        cd $WORKSPACE/$PROJECT_DIR
+        cd \"$WORKSPACE/$PROJECT_DIR\"
         /usr/bin/buildah build-using-dockerfile --build-arg git_hash="${env.GIT_COMMIT[0..7]}" --tag "$TAG" .
         """
       }
