@@ -74,12 +74,14 @@ FROM ${BASE_IMAGE} as tgz-builder
 
 WORKDIR /tmp/grafana
 
-ARG GRAFANA_TGZ="grafana-latest.linux-x64-musl.tar.gz"
-
-COPY ${GRAFANA_TGZ} /tmp/grafana.tar.gz
-
-# add -v to make tar print every file it extracts
-RUN tar x -z -f /tmp/grafana.tar.gz --strip-components=1
+# see https://github.com/grafana/grafana/issues/61347
+# ARG GRAFANA_TGZ="grafana-latest.linux-x64-musl.tar.gz"
+# COPY ${GRAFANA_TGZ} /tmp/grafana.tar.gz
+# # add -v to make tar print every file it extracts
+# RUN tar x -z -f /tmp/grafana.tar.gz --strip-components=1
+COPY ./public ./public
+COPY ./scripts ./scripts
+COPY ./plugins-bundled ./plugins-bundled 
 
 # helpers for COPY --from
 FROM ${GO_SRC} as go-src
