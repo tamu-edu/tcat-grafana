@@ -6,7 +6,7 @@ ARG JS_PLATFORM=linux/amd64
 ARG GO_IMAGE=golang:1.20.3-alpine3.17
 
 # ARG GO_SRC=go-builder
-ARG JS_SRC=js-builder
+# ARG JS_SRC=js-builder
 
 FROM --platform=${JS_PLATFORM} ${JS_IMAGE} as js-builder
 
@@ -85,7 +85,7 @@ COPY ./plugins-bundled ./plugins-bundled
 
 # helpers for COPY --from
 # FROM ${GO_SRC} as go-src
-FROM ${JS_SRC} as js-src
+# FROM ${JS_SRC} as js-src
 
 # Final stage
 FROM ${BASE_IMAGE}
@@ -166,7 +166,7 @@ RUN if [ ! $(getent group "$GF_GID") ]; then \
     chmod -R 777 "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" "$GF_PATHS_PROVISIONING"
 
 COPY --from=go-builder /tmp/grafana/bin/grafana* /tmp/grafana/bin/*/grafana* ./bin/
-COPY --from=js-src /tmp/grafana/public ./public
+COPY --from=js-builder /tmp/grafana/public ./public
 
 EXPOSE 3000
 
